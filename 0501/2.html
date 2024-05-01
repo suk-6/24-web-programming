@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        form {
+            padding: 10px;
+            width: 400px;
+        }
+
+        form * {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <form action="https://form.suk.kr" method="post">
+        <fieldset>
+            <legend>회원가입</legend>
+            아이디: <input type="text" name="id"> <br>
+            비밀번호: <input type="password" name="password"> <br>
+            이메일: <input type="email" name="email" required> <br>
+            항목: <input type="radio" name="item" value="포트폴리오"> 포트폴리오 <input type="radio" name="item" value="개인"> 개인 프로젝트
+            <input
+                    type="radio" name="item" value="과제물">
+            수업 과제물 <br>
+
+            사용 언어: <input type="checkbox" name="language" value="html"> HTML <input type="checkbox" name="language"
+                                                                                    value="css">
+            CSS <input
+                type="checkbox" name="language" value="js"> JavaScript <br>
+
+            작성 파일: <input type="file" name="file"> <br>
+
+            자기 소개: <br> <textarea name="introduce" cols="30" rows="10" placeholder="간단하게 입력하세요."></textarea> <br>
+
+            국적: <select name="nation">
+            <option value="korea">대한민국</option>
+            <option value="usa">미국</option>
+            <option value="japan">일본</option>
+            <option value="china">중국</option>
+        </select> <br>
+
+            <input type="submit" value="제출">
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
