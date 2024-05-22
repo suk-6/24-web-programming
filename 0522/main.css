@@ -1,0 +1,11 @@
+body {
+	margin: 20px;
+}
+
+.list-group {
+	display: none;
+}
+
+.show {
+	display: block;
+}
