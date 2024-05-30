@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>우리가게 재고 관리 프로그램</title>
+
+		<style>
+			.main {
+				margin: 0 auto;
+				display: flex;
+				flex-direction: column;
+				width: 70vh;
+			}
+
+			h1 {
+				text-align: center;
+			}
+
+			.center {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				position: relative;
+			}
+
+			.grid1 {
+				display: grid;
+				grid-template-columns: 60px 1fr;
+				gap: 10px;
+				width: 60%;
+			}
+
+			.grid1 label {
+				display: flex;
+				align-items: center;
+			}
+
+			.grid1 input {
+				padding: 8px;
+				border: 1px solid #ccc;
+			}
+
+			.buttons1 {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				margin-top: 20px;
+				gap: 10px;
+			}
+
+			.buttons1 button {
+				padding: 10px 20px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+
+			.button1 {
+				background-color: #007bff;
+				color: white;
+			}
+
+			.button1:hover {
+				background-color: #0056b3;
+			}
+
+			.button2 {
+				background-color: #bcbcbc;
+				color: black;
+			}
+
+			.button2:hover {
+				background-color: #a4a4a4;
+			}
+
+			#search {
+				display: none;
+			}
+
+			#result {
+				margin-top: 20px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				display: none;
+			}
+
+			#resultTable {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			#resultTable thead {
+				background-color: #f1f1f1;
+			}
+
+			#resultTable th,
+			#resultTable td {
+				border: 1px solid #ccc;
+				padding: 10px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="create" class="main">
+			<div>
+				<h1>우리가게 재고 관리 프로그램</h1>
+				<form>
+					<div class="center">
+						<div class="grid1">
+							<label for="name">제품명</label>
+							<input
+								type="text"
+								id="name"
+								name="name"
+								placeholder="내용을 입력해주세요."
+							/>
+							<label for="code">제품코드</label>
+							<input
+								type="text"
+								id="code"
+								name="code"
+								placeholder="내용을 입력해주세요."
+							/>
+							<label for="count">재고수량</label>
+							<input
+								type="number"
+								id="count"
+								name="count"
+								placeholder="내용을 입력해주세요."
+							/>
+							<label for="price">단가</label>
+							<input
+								type="number"
+								id="price"
+								name="price"
+								placeholder="내용을 입력해주세요."
+							/>
+						</div>
+					</div>
+					<div class="buttons1">
+						<button type="button" class="button1" onclick="save()">
+							저장하기
+						</button>
+						<button
+							type="button"
+							class="button2"
+							onclick="cancel()"
+						>
+							취소하기
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="search" class="main">
+			<div>
+				<h1>우리가게 물품 조회</h1>
+				<div id="searchComponent">
+					<form>
+						<div class="center">
+							<div class="grid1">
+								<label for="search">제품명</label>
+								<input
+									type="text"
+									id="searchInput"
+									name="search"
+									placeholder="찾으려는 물품명을 입력하세요."
+								/>
+							</div>
+						</div>
+						<div class="buttons1">
+							<button
+								type="button"
+								class="button1"
+								onclick="searchFn()"
+							>
+								검색하기
+							</button>
+							<button
+								type="button"
+								class="button2"
+								onclick="createPage()"
+							>
+								등록하기
+							</button>
+						</div>
+					</form>
+				</div>
+				<div id="result">
+					<h5>조회 결과가 아래에 표시됩니다.</h5>
+					<table id="resultTable">
+						<thead>
+							<tr>
+								<th>제품명</th>
+								<th>제품코드</th>
+								<th>재고수량</th>
+								<th>단가</th>
+							</tr>
+						</thead>
+						<tbody id="resultTableBody"></tbody>
+					</table>
+					<div class="buttons1">
+						<button
+							type="button"
+							class="button1"
+							onclick="searchPage()"
+						>
+							돌아가기
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			const datas = [];
+
+			const save = () => {
+				const name = document.getElementById("name").value;
+				const code = document.getElementById("code").value;
+				const count = document.getElementById("count").value;
+				const price = document.getElementById("price").value;
+
+				if (!name || !code || !count || !price) {
+					alert("모든 항목을 입력해주세요.");
+					// return;
+				}
+
+				const data = {
+					name: name,
+					code: code,
+					count: count,
+					price: price,
+				};
+
+				datas.push(data);
+				console.log(datas);
+
+				if (confirm("조회로 이동하시겠습니까?")) {
+					searchPage();
+				}
+			};
+
+			const cancel = () => {
+				document.getElementById("name").value = "";
+				document.getElementById("code").value = "";
+				document.getElementById("count").value = "";
+				document.getElementById("price").value = "";
+			};
+
+			const searchPage = () => {
+				document.getElementById("create").style.display = "none";
+				document.getElementById("search").style.display = "block";
+				document.getElementById("searchComponent").style.display =
+					"block";
+				document.getElementById("result").style.display = "none";
+			};
+
+			const createPage = () => {
+				document.getElementById("create").style.display = "block";
+				document.getElementById("search").style.display = "none";
+			};
+
+			const searchFn = () => {
+				const value = document.getElementById("searchInput").value;
+				const resultTableBody =
+					document.querySelector("#resultTableBody");
+
+				const result = datas.filter((data) => {
+					return data.name.includes(value);
+				});
+
+				if (result.length === 0) {
+					alert("검색 결과가 없습니다.");
+					return;
+				}
+				if (resultTableBody) {
+					resultTableBody.innerHTML = "";
+					result.forEach((data) => {
+						console.log(data);
+						const row = document.createElement("tr");
+
+						const nameCell = document.createElement("td");
+						const codeCell = document.createElement("td");
+						const countCell = document.createElement("td");
+						const priceCell = document.createElement("td");
+
+						nameCell.textContent = data.name || "";
+						codeCell.textContent = data.code || "";
+						countCell.textContent = data.count || "";
+						priceCell.textContent = data.price || "";
+
+						row.appendChild(nameCell);
+						row.appendChild(codeCell);
+						row.appendChild(countCell);
+						row.appendChild(priceCell);
+
+						resultTableBody.appendChild(row);
+					});
+
+					document.getElementById("searchComponent").style.display =
+						"none";
+					document.getElementById("result").style.display = "block";
+				} else {
+					alert("오류");
+				}
+			};
+		</script>
+	</body>
+</html>
