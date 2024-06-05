@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+
+		<link
+			rel="stylesheet"
+			as="style"
+			crossorigin
+			href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard-dynamic-subset.min.css"
+		/>
+
+		<style>
+			* {
+				font-family: "Pretendard", sans-serif;
+			}
+
+			body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				overflow: hidden;
+			}
+
+			.alert-box {
+				position: absolute;
+				width: 300px;
+				height: 170px;
+				display: none;
+				background-color: rgba(0, 0, 0, 0.4);
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+				border-radius: 10px;
+			}
+
+			.alert-box span {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: white;
+				font-size: 20px;
+			}
+
+			.buttons {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 10px;
+				z-index: 11;
+				position: relative;
+			}
+
+			.teemo {
+				background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3N44zSrFA0XAI9EDJ4Q-zNZm0JZF_PZlgQg&usqp=CAU");
+				width: 300px;
+				height: 170px;
+			}
+
+			.cleans {
+				width: 30%;
+				background-color: #007bff;
+				color: white;
+				padding: 10px 20px;
+				border: 0;
+				cursor: pointer;
+			}
+
+			.explosion {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWN6eTd0NnR4c294bWVzcXRhNDRtaHQ3NGVheTgyb3AwOHJoaWVqNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HhTXt43pk1I1W/200.webp");
+				background-size: 50%;
+				z-index: 10;
+			}
+
+			@keyframes explode {
+				0% {
+					opacity: 0;
+				}
+				50% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="buttons">
+			<div>
+				<div id="hi" class="alert-box">
+					<span>중독되었습니다.</span>
+				</div>
+				<button
+					class="teemo"
+					onclick="(() => {
+                    document.getElementById('explosion').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('explosion').style.display = 'none';
+                    }, 3000);
+                })()"
+				></button>
+			</div>
+
+			<button
+				class="cleans"
+				onclick="(() => {
+                document.getElementById('explosion').style.display = 'none';
+            })()"
+			>
+				해독제
+			</button>
+		</div>
+		<div id="explosion" class="explosion"></div>
+	</body>
+</html>
